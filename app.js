@@ -1,34 +1,56 @@
 "use strict";
-// Adjust these normalized rectangles if your artwork has unequal panels.
-const PANELS=[[0,0,.5,.5],[.5,0,1,.5],[0,.5,.5,1],[.5,.5,1,1]];
-const CARDS=[[0,0,1/3,1],[1/3,0,2/3,1],[2/3,0,1,1]];
+const PANELS=[[0,0,.5,.5],[.5,0,1,.5],[0,.5,.5,1],[.5,.5,1,1]],CARDS=[[0,0,1/3,1],[1/3,0,2/3,1],[2/3,0,1,1]];
 const scenes=[
-{title:"朋友沒有等我",file:"friend-conflict",intro:"朋友沒有等你就離開了。你很生氣，但也很重視這段友誼。",labels:["A｜指責","B｜冷處理","C｜表達感受"],words:["你根本不當我是朋友！","算了，我不想說了。","你沒有等我時，我覺得被忽略。下次可以先告訴我嗎？"],effects:["對方可能覺得被攻擊，開始反駁；你真正的需要也可能被忽略。","談話可能暫時停止，但對方未必知道你為甚麼失望。你也可以說明需要冷靜，約定稍後再談。","對方有機會理解你的感受並解釋原因，但不一定立刻同意。"],parts:[["你沒有等我就離開時","你總是這樣"],["我覺得失望","你很討厭"],["下次可以先告訴我嗎？","你永遠不要找我！"]]},
-{title:"我的界線，我來說",file:"relationship-boundaries",intro:"對方的接觸讓你不舒服。你可以決定自己的界線，不需要為了維持關係而接受。",labels:["A｜直接拒絕","B｜默默忍耐","C｜說明界線"],words:["不要靠近我，請停下！","沒關係……（其實不舒服）","我不想這樣接觸，請保持距離。"],effects:["直接拒絕可以清楚保護界線。若你感到不安全，先離開並尋求支援，不必留下來解釋。","對方可能誤以為你同意。你有權改變主意、拒絕接觸或尋求協助。","清楚表達讓對方知道你的界線。若對方不尊重你的拒絕，優先保護自己。"],parts:[["當你繼續靠近時","你每次都這樣"],["我感到不舒服","你一定是故意的"],["請停止並保持距離。","請先問我是否願意。"]]},
-{title:"功課卡關了",file:"homework",intro:"功課做不出來，家人又在催促。你想得到幫助，而不是再吵一次。",labels:["A｜發脾氣","B｜逃避","C｜尋求協助"],words:["我不會！你自己做好了！","（推開書本，不回應）","這題我卡住了，可以和我一起拆成小步驟嗎？"],effects:["對方可能只注意到你的語氣，沒有聽到你遇到的困難。可以先停一停，再指出卡住的位置。","暫停可以幫助冷靜，但如果沒有說明，對方可能不知道你需要休息還是協助。","具體的求助讓對方更容易知道怎樣幫忙；也可以協商先休息再繼續。"],parts:[["做到這一題時","你一直在煩我"],["我覺得很挫折","你根本不懂"],["可以一起看第一步嗎？","可以讓我休息五分鐘再繼續嗎？"]]}
+{title:"朋友沒有等我",file:"friend-conflict",intro:"朋友沒有等你就離開了。你很生氣，也很重視這段友誼。",labels:["A｜指責","B｜冷處理","C｜表達感受"],words:["你根本不當我是朋友！","算了，我不想說了。","你沒有等我時，我覺得被忽略。下次可以先告訴我嗎？"],feedback:[
+["被朋友留下，可能真的會讓你生氣或受傷。你想讓對方知道這段友誼很重要，這份心情值得被聽見。","可以把『你根本……』改成具體發生的事，再說自己的感受。","可以試說：你沒有等我就離開時，我有點失望。下次可以先告訴我嗎？"],
+["你可能需要時間整理心情，現在不想說也可以。","可以告訴對方你需要暫停，而不是讓對方猜測。","可以試說：我現在有點生氣，想先冷靜一下。等我準備好，我們再談。"],
+["你把感受和希望說清楚了，這是值得肯定的一步。","說完後，也可以留一點空間聽聽對方的解釋。對方沒有立即理解，不代表你表達得不好。","可以接著說：當時發生了甚麼事？我也想聽聽你的想法。"]],parts:[["你沒有等我就離開時","你總是這樣"],["我覺得失望","你很討厭"],["下次可以先告訴我嗎？","你永遠不要找我！"]]},
+{title:"我的界線，我來說",file:"relationship-boundaries",intro:"對方的接觸讓你不舒服。你可以決定自己的界線。",labels:["A｜直接拒絕","B｜默默忍耐","C｜說明界線"],words:["不要靠近我，請停下！","沒關係……（其實不舒服）","我不想這樣接觸，請保持距離。"],feedback:[
+["你清楚說出了『停止』，你的界線值得被尊重。","不需要為了顯得有禮貌而接受不舒服的接觸。下一步是確認自己是否安全。","如果對方沒有停止，可以離開現場，向可信任的老師、家人或支援者求助。"],
+["當下不知道怎樣拒絕，或一時說不出話，不代表你做錯了。你不需要責怪自己。","你仍然可以在之後說出界線，也可以請人陪你表達。","可以試說：剛才我沒有說清楚，但其實我不舒服。我不想再有這樣的接觸。"],
+["你把自己的需要說清楚了，這值得肯定。","留意對方是否真的停止。如果對方繼續施壓，不是你需要說得更好，而是可以尋求支援。","重視一段關係，不代表要放下自己的界線。"]],parts:[["當你繼續靠近時","你每次都這樣"],["我感到不舒服","你一定是故意的"],["請停止並保持距離。","請先問我是否願意。"]]},
+{title:"功課卡關了",file:"homework",intro:"功課做不出來，家人又在催促。你希望得到幫助。",labels:["A｜發脾氣","B｜逃避","C｜尋求協助"],words:["我不會！你自己做好了！","（推開書本，不回應）","這題我卡住了，可以一起拆成小步驟嗎？"],feedback:[
+["卡住又被催促，可能會讓你很挫折。一次發脾氣不代表你不努力，也不代表你沒有能力。","先停一停，再指出需要幫忙的地方。","可以試說：我不知道第一步怎樣做。可以讓我停一下，再陪我看第一步嗎？"],
+["你可能已經很累，或不知道怎樣開始。需要休息不等於放棄。","可以說明要休息多久，以及回來後願意試的小步驟。","可以試說：我先休息五分鐘，之後先做第一小題。卡住時可以再問你嗎？"],
+["你說出了困難，並邀請別人一起找方法。求助是尋找下一步，不代表能力不足。","可以再指出已經做到哪裡，以及從哪裡開始不明白。","可以接著說：題目我看得懂，但不知道要用哪個方法。我們先看這部分可以嗎？"]],parts:[["做到這一題時","你一直在煩我"],["我覺得很挫折","你根本不懂"],["可以一起看第一步嗎？","可以讓我休息五分鐘再繼續嗎？"]]}
 ];
-const $=id=>document.getElementById(id),screen=$('screen'),cache=new Map();
-const KEY='story-lab-v2';let state={i:0,step:0,feelings:[null,null,null],answers:[null,null,null],builds:[null,null,null]},pending=null,token=0;
-try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&Number.isInteger(x.i)&&x.i>=0&&x.i<3&&Number.isInteger(x.step)&&x.step>=0&&x.step<6&&['feelings','answers','builds'].every(k=>Array.isArray(x[k])&&x[k].length===3)&&x.answers.every(n=>n===null||(Number.isInteger(n)&&n>=0&&n<3))){state=x;if(state.step===4&&state.answers[state.i]===null)state.step=3;}}catch(_){}
+const $=id=>document.getElementById(id),screen=$('screen'),cache=new Map(),KEY='story-lab-v3';
+const fresh=()=>({i:0,step:0,feelings:[null,null,null],answers:[null,null,null],builds:[null,null,null]});
+let state=fresh(),pending=null,revision=0;
+try{const x=JSON.parse(localStorage.getItem(KEY));if(x&&Number.isInteger(x.i)&&x.i>=0&&x.i<3&&Number.isInteger(x.step)&&x.step>=0&&x.step<6&&['feelings','answers','builds'].every(k=>Array.isArray(x[k])&&x[k].length===3)&&x.answers.every(n=>n===null||(Number.isInteger(n)&&n>=0&&n<3))){state=x;if(x.step===4&&x.answers[x.i]===null)state.step=3;}}catch(_){}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(_){}}
-function node(tag,text,cls){const el=document.createElement(tag);if(text)el.textContent=text;if(cls)el.className=cls;return el;}
-function button(text,fn,cls){const b=node('button',text,cls);b.type='button';b.addEventListener('click',fn);return b;}
-function image(file){if(cache.has(file))return cache.get(file);const promise=new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>{cache.delete(file);reject(new Error(`無法載入 assets/${file}.jpg\n請檢查 assets 資料夾和檔名大小寫。`));};im.src=`./assets/${file}.jpg`;});cache.set(file,promise);return promise;}
-function crop(im,r){const [l,t,right,b]=r,x=Math.round(l*im.width),y=Math.round(t*im.height),w=Math.round(right*im.width)-x,h=Math.round(b*im.height)-y,c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,x,y,w,h,0,0,w,h);return c.toDataURL('image/png');}
-function pic(src,alt){const im=node('img');im.src=src;im.alt=alt;return im;}
-async function panel(s,n,version){const im=await image(s.file);if(version!==token)return;const src=crop(im,PANELS[n]),box=node('div',null,'panel enter');box.append(pic(src,`${s.title}：第 ${n+1} 格`),button('放大漫畫',()=>{$('zoom').querySelector('img').src=src;$('zoom').showModal();},'secondary'));screen.append(box);}
-async function render(){const v=++token;pending=null;save();const s=scenes[state.i];screen.replaceChildren();$('status').textContent='';$('progress').value=state.i*6+state.step+1;$('back').disabled=state.i===0&&state.step===0;$('next').hidden=false;$('next').disabled=true;$('next').textContent='繼續';screen.append(node('small',`情境 ${state.i+1} / 3 · 階段 ${state.step+1} / 6`),node('h2',s.title));
+function el(tag,text,cls){const n=document.createElement(tag);if(text)n.textContent=text;if(cls)n.className=cls;return n;}
+function btn(text,fn){const b=el('button',text);b.type='button';b.addEventListener('click',fn);return b;}
+function load(file){if(cache.has(file))return cache.get(file);const p=new Promise((ok,no)=>{const im=new Image();im.onload=()=>ok(im);im.onerror=()=>{cache.delete(file);no(Error(`找不到 assets/${file}.jpg\n請檢查檔案和大小寫。`));};im.src=`./assets/${file}.jpg`;});cache.set(file,p);return p;}
+function crop(im,r){const [l,t,right,b]=r,x=Math.round(l*im.width),y=Math.round(t*im.height),w=Math.round(right*im.width)-x,h=Math.round(b*im.height)-y,c=el('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(im,x,y,w,h,0,0,w,h);return c.toDataURL('image/png');}
+function picture(src,alt){const im=el('img');im.src=src;im.alt=alt;return im;}
+async function panel(s,n,v){const im=await load(s.file);if(v!==revision)return;const src=crop(im,PANELS[n]),box=el('div',null,'panel');box.append(picture(src,`${s.title}：第 ${n+1} 格`),btn('放大漫畫',()=>{$('zoom').querySelector('img').src=src;$('zoom').showModal();}));screen.append(box);}
+function builder(s){
+ const box=el('div',null,'box');box.append(el('h3','組合你的回應'),el('p','不用一次說得完美。組合一句能表達你需要的話，再按「看看我的說法」。'));
+ const selects=[],preview=el('p'),result=el('div');result.setAttribute('aria-live','polite');
+ const old=Array.isArray(state.builds[state.i])?state.builds[state.i]:[];
+ let previous=null;
+ ['發生的事','我的感受','我的希望／界線'].forEach((name,n)=>{const label=el('label',name),select=el('select');select.id=`part-${n}`;label.htmlFor=select.id;select.append(new Option('請選擇…',''));s.parts[n].forEach(t=>select.append(new Option(t,t)));select.value=s.parts[n].includes(old[n])?old[n]:'';selects.push(select);box.append(label,select);select.addEventListener('change',()=>{state.builds[state.i]=selects.map(x=>x.value);save();preview.textContent=selects.filter(x=>x.value).map(x=>x.value).join('，');result.replaceChildren();});});
+ preview.textContent=selects.filter(x=>x.value).map(x=>x.value).join('，');box.append(el('h4','你的句子'),preview);
+ function check(){const values=selects.map(x=>x.value);result.replaceChildren();if(values.some(x=>!x)){result.append(el('p','不用急，先完成三個部分，再一起看看。'));selects.find(x=>!x.value).focus();return;}
+ const indices=values.map((x,n)=>s.parts[n].indexOf(x)),bad=indices.map((x,n)=>x===1&&(n<2||state.i===0));
+ if(previous&&previous.some((x,n)=>x!==values[n]))result.append(el('p','你願意回頭調整自己的說法，這就是練習的一部分。'));
+ if(!bad.some(Boolean)){result.append(el('h4',state.i===1?'你的界線值得尊重':'你已經把需要說清楚了'),el('p',state.i===1?'你說出了不舒服，也提出界線。這句話已經可以使用，不一定需要說得更溫柔。若對方不停止，先保護自己並尋求支援。':'你描述了發生的事、自己的感受和一個具體希望。這些部分可以保留；再想想字眼是否像你平常會說的話。'),el('p','對方未必立即理解，但你的感受仍值得被聽見。'));}
+ else{result.append(el('p','你願意把心裡的話說出來，這值得肯定。不用整句重來，我們先調整一小部分。'));const first=bad.indexOf(true);const messages=[`「${values[0]}」比較像概括的責備。可以指出一次具體發生的事，例如「${s.parts[0][0]}」。`,`「${values[1]}」是在評論或猜測對方，還沒有說出你的心情。可以試試「${s.parts[1][0]}」。`,`「${values[2]}」可能沒有說出你真正希望對方怎樣做。可以提出具體請求，例如「${s.parts[2][0]}」。`];result.append(el('p',messages[first]));if(!bad[0])result.append(el('p','你已經指出發生的事，這部分可以保留。'));if(!bad[1])result.append(el('p','你已經說出了自己的感受，這部分可以保留。'));if(state.i===1)result.append(el('p','無論怎樣措辭，你都有權拒絕不舒服的接觸；不需要先說得完美才可以求助。'));}
+ previous=[...values];result.append(btn('修改我的說法',()=>{selects[bad.indexOf(true)>=0?bad.indexOf(true):0].focus();}),btn('看看一個示範',()=>{const sample=el('div',null,'box');sample.append(el('p',s.parts.map(a=>a[0]).join('，')),el('small','這只是一個示範，不會取代你選好的句子。'));result.append(sample);}),btn('我準備好繼續了',()=> $('next').click()));
+ }
+ box.append(btn('看看我的說法',check),result);screen.append(box);
+}
+async function render(){const v=++revision;pending=null;save();const s=scenes[state.i];screen.replaceChildren(el('small',`情境 ${state.i+1} / 3 · 階段 ${state.step+1} / 6`),el('h2',s.title));$('status').textContent='';$('progress').value=state.i*6+state.step+1;$('next').hidden=false;$('next').disabled=true;$('next').textContent='繼續';$('back').disabled=state.i===0&&state.step===0;
 try{
-if(state.step===0){screen.append(node('p',s.intro),node('div','先閱讀第一格，留意角色遇到的困難。','box'));await panel(s,0,v);}
-if(state.step===1){screen.append(node('p','繼續閱讀。你看到了甚麼？'));await panel(s,1,v);}
-if(state.step===2){screen.append(node('p','角色可能有甚麼感受？選一個最接近的。不同感受都可以，這不是對錯題。'));const chips=node('div',null,'chips');for(const feeling of ['被忽略','生氣','失望','不安','挫折','不確定']){const b=button(feeling,()=>{state.feelings[state.i]=feeling;save();for(const x of chips.children){x.classList.toggle('selected',x===b);x.setAttribute('aria-pressed',String(x===b));}$('next').disabled=false;});b.classList.toggle('selected',state.feelings[state.i]===feeling);b.setAttribute('aria-pressed',String(state.feelings[state.i]===feeling));chips.append(b);}screen.append(chips);}
-if(state.step===3){screen.append(node('p','看三張卡，選一個你想試的回應，再按「看看可能的反應」。卡片順序對應原圖，並不是固定選 C 就過關。'));const im=await image(s.file+'-choices');if(v!==token)return;const grid=node('div',null,'grid');CARDS.forEach((rect,n)=>{const card=node('article',null,'card');const b=button(s.labels[n],()=>{pending=n;for(const c of grid.children)c.classList.toggle('selected',c===card);for(const x of grid.querySelectorAll('button'))x.setAttribute('aria-pressed',String(x===b));$('next').disabled=false;});b.setAttribute('aria-pressed','false');card.append(pic(crop(im,rect),s.labels[n]),node('p',s.words[n]),b);grid.append(card);});screen.append(grid);$('next').textContent='看看可能的反應';}
-if(state.step===4){const n=state.answers[state.i];screen.append(node('div',`你選了 ${s.labels[n]}：${s.words[n]}`,'box'),node('p',s.effects[n]),node('small','這是可能的反應，不是保證的結果。下面漫畫是原作的示範發展，不代表每個選項都會得到同樣結果。','note'));screen.append(button('試另一個回應',()=>{state.step=3;render();},'secondary'));await panel(s,2,v);}
-if(state.step===5){screen.append(node('p','最後看原作的總結，再試著組合一句你自己的回應。'));await panel(s,3,v);if(v!==token)return;const box=node('div',null,'box');box.append(node('h3','組合你的回應'));const selects=[];['發生的事','我的感受','我的希望／界線'].forEach((label,n)=>{const id=`part-${n}`,lab=node('label',label);lab.htmlFor=id;const sel=node('select');sel.id=id;sel.append(new Option('請選擇…',''));s.parts[n].forEach(t=>sel.append(new Option(t,t)));sel.value=state.builds[state.i]?.[n]||'';selects.push(sel);sel.addEventListener('change',update);box.append(lab,sel);});const output=node('p');box.append(output);function update(){state.builds[state.i]=selects.map(x=>x.value);save();output.textContent=selects.every(x=>x.value)?selects.map(x=>x.value).join('，'):'沒有計分：試著選出你願意使用的說法。';}update();screen.append(box);$('next').textContent=state.i===2?'完成練習':'下一個情境';}
-if(v!==token)return;$('next').disabled=state.step===3?pending===null:state.step===2?!state.feelings[state.i]:false;
-}catch(e){if(v!==token)return;screen.append(node('div',e.message,'error'),button('重試載入',render));$('status').textContent='圖片尚未載入；請確認檔案後重試。';$('next').disabled=true;}
-if(v===token)screen.focus({preventScroll:true});}
-$('next').addEventListener('click',()=>{if(state.step===3){if(pending===null)return;state.answers[state.i]=pending;}if(state.step===5){if(state.i===2){save();screen.replaceChildren(node('h2','練習完成！'),node('p','你已探索三個情境，也嘗試了不同的表達方式。真實對話沒有保證的結局；你仍可以表達感受、保護界線並尋求支援。'),button('再玩一次',reset));$('next').hidden=true;$('back').disabled=true;$('progress').value=18;return;}state.i++;state.step=0;}else state.step++;render();});
-$('back').addEventListener('click',()=>{if(state.step>0)state.step--;else if(state.i>0){state.i--;state.step=5;}render();});
-function reset(){state={i:0,step:0,feelings:[null,null,null],answers:[null,null,null],builds:[null,null,null]};render();}
-$('reset').addEventListener('click',()=>{if(confirm('清除進度並重新開始？'))reset();});$('close').addEventListener('click',()=>$('zoom').close());$('motion').addEventListener('change',e=>document.documentElement.classList.toggle('reduce',e.target.checked));render();
+ if(state.step===0){screen.append(el('p',s.intro));await panel(s,0,v);}
+ if(state.step===1){screen.append(el('p','繼續閱讀，留意角色遇到的困難。'));await panel(s,1,v);}
+ if(state.step===2){screen.append(el('p','角色可能有甚麼感受？這不是對錯題，選一個最貼近的就可以。'));const chips=el('div',null,'chips');for(const f of ['被忽略','生氣','失望','不安','挫折','不確定']){const b=btn(f,()=>{state.feelings[state.i]=f;save();for(const x of chips.children){x.classList.toggle('selected',x===b);x.setAttribute('aria-pressed',String(x===b));}$('next').disabled=false;});b.classList.toggle('selected',state.feelings[state.i]===f);b.setAttribute('aria-pressed',String(state.feelings[state.i]===f));chips.append(b);}screen.append(chips);}
+ if(state.step===3){screen.append(el('p','選一個你想嘗試的回應，再確認。沒有扣分，也可以回來試另一種說法。'));const im=await load(s.file+'-choices');if(v!==revision)return;const grid=el('div',null,'grid');CARDS.forEach((r,n)=>{const card=el('article',null,'card'),b=btn(s.labels[n],()=>{pending=n;for(const x of grid.children)x.classList.toggle('selected',x===card);for(const x of grid.querySelectorAll('button'))x.setAttribute('aria-pressed',String(x===b));$('next').disabled=false;});b.setAttribute('aria-pressed','false');card.append(picture(crop(im,r),s.labels[n]),el('p',s.words[n]),b);grid.append(card);});screen.append(grid);$('next').textContent='看看回應與提示';}
+ if(state.step===4){const n=state.answers[state.i],box=el('div',null,'box');box.append(el('h3',`你選了 ${s.labels[n]}`));s.feedback[n].forEach(t=>box.append(el('p',t)));box.append(btn('試另一個回應',()=>{state.step=3;render();}),btn('練習修改自己的說法',()=>{state.step=5;render();}));screen.append(box,el('small','下面是原作示範發展，不代表每個選項都會得到相同結果。'));await panel(s,2,v);}
+ if(state.step===5){await panel(s,3,v);if(v!==revision)return;builder(s);$('next').textContent=state.i===2?'完成練習':'下一個情境';}
+ if(v!==revision)return;$('next').disabled=state.step===3?pending===null:state.step===2?!state.feelings[state.i]:false;
+}catch(e){if(v!==revision)return;screen.append(el('div',e.message,'error'),btn('重新載入',render));$('status').textContent='請確認圖片檔案後重試。';$('next').disabled=true;}if(v===revision)screen.focus({preventScroll:true});}
+function reset(){state=fresh();render();}
+$('next').addEventListener('click',()=>{if(state.step===3){if(pending===null)return;state.answers[state.i]=pending;}if(state.step===5){if(state.i===2){screen.replaceChildren(el('h2','練習完成！'),el('p','你願意停下來想一想，並嘗試表達自己的需要，這就是重要的一步。不必一次說得完美；找到一句願意試的話，就可以由這裡開始。'),btn('再練一次',reset));$('next').hidden=true;$('back').disabled=true;return;}state.i++;state.step=0;}else state.step++;render();});
+$('back').addEventListener('click',()=>{if(state.step>0)state.step--;else if(state.i>0){state.i--;state.step=5;}render();});$('reset').addEventListener('click',()=>{if(confirm('清除進度並重新開始？'))reset();});$('close').addEventListener('click',()=>$('zoom').close());$('motion').addEventListener('change',e=>document.documentElement.classList.toggle('reduce',e.target.checked));render();
